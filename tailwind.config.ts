@@ -8,11 +8,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
+      // backgroundImage: {
+      //   'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      //   'gradient-conic':
+      //     'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      // },
       colors: {
 				"dark-layer-1": "rgb(40,40,40)",
 				"dark-layer-2": "rgb(26,26,26)",
@@ -28,7 +28,7 @@ const config: Config = {
 				"brand-orange-s": "rgb(193, 122, 15)",
 				"dark-yellow": "rgb(255 192 30)",
 				"dark-pink": "rgb(255 55 95)",
-				olive: "rgb(0, 184, 163)",
+				"olive": "rgb(0, 184, 163)",
 				"dark-green-s": "rgb(44 187 93)",
 				"dark-blue-s": "rgb(10 132 255)",
 			},
