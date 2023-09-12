@@ -1,5 +1,8 @@
 import { authModalState } from '@/atoms/authModalAtom';
-import React from 'react';
+import { auth } from '@/firebase/firebase';
+import { useRouter } from 'next/router';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useSetRecoilState } from 'recoil';
 
 type LoginProps = {};
@@ -10,10 +13,45 @@ export default function Login({}: LoginProps) {
     setAuthModalState((prev) => ({ ...prev, type }));
   };
 
+  const [inputs, setInputs] = useState({ email: '', password: '' });
+
+  const [
+    signInWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useSignInWithEmailAndPassword(auth);
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const router = useRouter();
+
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!inputs.email || !inputs.password)
+      return alert('Please fill all fields');
+    try {
+      const newUser = await signInWithEmailAndPassword(
+        inputs.email,
+        inputs.password
+      );
+      if (!newUser) return;
+      router.push('/');
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (error) alert(error.message);
+  }, [error]);
+
   return (
     <form
       className="space-y-6 px-6 pb-4"
-      // onSubmit={handleLogin}
+      onSubmit={handleLogin}
     >
       <h3 className="text-xl font-medium text-white">Sign in to LeetClone</h3>
       <div>
@@ -24,7 +62,7 @@ export default function Login({}: LoginProps) {
           Your Email
         </label>
         <input
-          // onChange={handleInputChange}
+          onChange={handleInputChange}
           type="email"
           name="email"
           id="email"
@@ -43,7 +81,7 @@ export default function Login({}: LoginProps) {
           Your Password
         </label>
         <input
-          // onChange={handleInputChange}
+          onChange={handleInputChange}
           type="password"
           name="password"
           id="password"
@@ -61,7 +99,7 @@ export default function Login({}: LoginProps) {
                 text-sm px-5 py-2.5 text-center bg-brand-orange hover:bg-brand-orange-s
             "
       >
-        {/* {loading ? 'Loading...' : 'Log In'} */}
+        {loading ? 'Loading...' : 'Log In'}
       </button>
       <button
         className="flex w-full justify-end"
