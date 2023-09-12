@@ -1,8 +1,15 @@
+import { authModalState } from '@/atoms/authModalAtom';
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
 
 type Props = {};
 
 export default function Signup({}: Props) {
+  const setAuthModalState = useSetRecoilState(authModalState);
+  const handleClick = () => {
+    setAuthModalState((prev) => ({ ...prev, type: 'login' }));
+  };
+
   return (
     <form 
       className="space-y-6 px-6 pb-4" 
@@ -81,7 +88,7 @@ export default function Signup({}: Props) {
         <a
           href="#"
           className="text-blue-700 hover:underline"
-          // onClick={handleClick}
+          onClick={handleClick}
         >
           Log In
         </a>
